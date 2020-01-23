@@ -16,11 +16,6 @@ io.on('connection', socket => {
     })
 });
 
-app.use((req, res, next) => {
-    req.io = io
-
-    return next();
-})
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -32,6 +27,11 @@ mongoose.connect('mongodb+srv://semana:semana@cluster0-43ss0.mongodb.net/tindev?
         useUnifiedTopology: true
     }
 );
+
+app.use((req, res, next) => {
+    req.io = io
+    return next();
+})
 
 app.use(require('./routes'));
 
